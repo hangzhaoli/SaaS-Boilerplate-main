@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.2.25",
+    "@spotlightjs/spotlight": "^1.2.18",
     "@percy/cli": "^1.31.1",
     "@percy/playwright": "^1.0.6",
     "@playwright/test": "^1.48.2",
