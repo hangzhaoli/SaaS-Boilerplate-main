@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
+import { useIsAdmin } from '@/components/AdminGuard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,6 +38,7 @@ export function MarketplaceNavbar() {
   const { signOut } = useClerk();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const isAdmin = useIsAdmin();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,105 +132,118 @@ export function MarketplaceNavbar() {
 
           {/* Right Navigation */}
           <div className="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-4">
-            {isSignedIn ? (
-              <>
-                {/* Favorites */}
-                <Link href="/dashboard/favorites">
-                  <Button variant="ghost" size="icon" className="relative">
-                    <Heart className="size-5" />
-                    <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center p-0">
-                      3
-                    </Badge>
-                  </Button>
-                </Link>
+            {isSignedIn
+              ? (
+                  <>
+                    {/* Favorites */}
+                    <Link href="/dashboard/favorites">
+                      <Button variant="ghost" size="icon" className="relative">
+                        <Heart className="size-5" />
+                        <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center p-0">
+                          3
+                        </Badge>
+                      </Button>
+                    </Link>
 
-                {/* Cart */}
-                <Link href="/marketplace/cart">
-                  <Button variant="ghost" size="icon" className="relative">
-                    <ShoppingCart className="size-5" />
-                    <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center p-0">
-                      2
-                    </Badge>
-                  </Button>
-                </Link>
+                    {/* Cart */}
+                    <Link href="/marketplace/cart">
+                      <Button variant="ghost" size="icon" className="relative">
+                        <ShoppingCart className="size-5" />
+                        <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center p-0">
+                          2
+                        </Badge>
+                      </Button>
+                    </Link>
 
-                {/* User Menu */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative size-8 rounded-full">
-                      <User className="size-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                          {user?.firstName}
-                          {' '}
-                          {user?.lastName}
-                        </p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                          {user?.emailAddresses[0]?.emailAddress}
-                        </p>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="flex cursor-pointer items-center">
-                        <Package className="mr-2 size-4" />
-                        <span>Dashboard</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard/orders" className="flex cursor-pointer items-center">
-                        <ShoppingCart className="mr-2 size-4" />
-                        <span>Orders</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard/wallet" className="flex cursor-pointer items-center">
-                        <Wallet className="mr-2 size-4" />
-                        <span>Wallet</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard/earnings" className="flex cursor-pointer items-center">
-                        <BarChart3 className="mr-2 size-4" />
-                        <span>Earnings</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard/organization-profile" className="flex cursor-pointer items-center">
-                        <Settings className="mr-2 size-4" />
-                        <span>Settings</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={handleSignOut}
-                      className="flex cursor-pointer items-center text-red-500 focus:text-red-500"
-                    >
-                      <LogOut className="mr-2 size-4" />
-                      <span>Sign Out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <>
-                <Link href="/sign-in">
-                  <Button variant="ghost">
-                    <LogIn className="mr-2 size-4" />
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/sign-up">
-                  <Button>
-                    Sign Up
-                  </Button>
-                </Link>
-              </>
-            )}
+                    {/* User Menu */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="relative size-8 rounded-full">
+                          <User className="size-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56" align="end" forceMount>
+                        <DropdownMenuLabel className="font-normal">
+                          <div className="flex flex-col space-y-1">
+                            <p className="text-sm font-medium leading-none">
+                              {user?.firstName}
+                              {' '}
+                              {user?.lastName}
+                            </p>
+                            <p className="text-xs leading-none text-muted-foreground">
+                              {user?.emailAddresses[0]?.emailAddress}
+                            </p>
+                          </div>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard" className="flex cursor-pointer items-center">
+                            <Package className="mr-2 size-4" />
+                            <span>Dashboard</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard/orders" className="flex cursor-pointer items-center">
+                            <ShoppingCart className="mr-2 size-4" />
+                            <span>Orders</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard/wallet" className="flex cursor-pointer items-center">
+                            <Wallet className="mr-2 size-4" />
+                            <span>Wallet</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard/earnings" className="flex cursor-pointer items-center">
+                            <BarChart3 className="mr-2 size-4" />
+                            <span>Earnings</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard/organization-profile" className="flex cursor-pointer items-center">
+                            <Settings className="mr-2 size-4" />
+                            <span>Settings</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        {/* 仅对管理员显示管理员链接 */}
+                        {isAdmin && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                              <Link href="/admin" className="flex w-full items-center">
+                                🔧 Admin Dashboard
+                              </Link>
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={handleSignOut}
+                          className="flex cursor-pointer items-center text-red-500 focus:text-red-500"
+                        >
+                          <LogOut className="mr-2 size-4" />
+                          <span>Sign Out</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </>
+                )
+              : (
+                  <>
+                    <Link href="/sign-in">
+                      <Button variant="ghost">
+                        <LogIn className="mr-2 size-4" />
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link href="/sign-up">
+                      <Button>
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </>
+                )}
           </div>
 
           {/* Mobile menu button */}
