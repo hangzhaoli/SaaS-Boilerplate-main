@@ -1,23 +1,14 @@
-import { AppConfig } from '@/utils/AppConfig';
-
 export const Logo = (props: {
   isTextHidden?: boolean;
 }) => (
   <div className="flex items-center text-xl font-semibold">
-    <svg
-      className="mr-1 size-8 stroke-current stroke-2"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M0 0h24v24H0z" stroke="none" />
-      <rect x="3" y="12" width="6" height="8" rx="1" />
-      <rect x="9" y="8" width="6" height="12" rx="1" />
-      <rect x="15" y="4" width="6" height="16" rx="1" />
-      <path d="M4 20h14" />
-    </svg>
-    {!props.isTextHidden && AppConfig.name}
+    <div className="mr-2 flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500">
+      <span className="text-lg font-bold text-white">∞</span>
+    </div>
+    {!props.isTextHidden && (
+      <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+        ZENO
+      </span>
+    )}
   </div>
 );

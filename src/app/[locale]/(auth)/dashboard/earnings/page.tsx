@@ -1,34 +1,42 @@
 'use client';
 
+import { DollarSign, Download, TrendingUp, Users } from 'lucide-react';
 import { useState } from 'react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  PieChart,
-  Pie,
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
   Cell,
-  Legend
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
-import { Download, Calendar, TrendingUp, DollarSign } from 'lucide-react';
 
-import { DashboardSection } from '@/features/dashboard/DashboardSection';
-import { TitleBar } from '@/features/dashboard/TitleBar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/ui/select';
+import { DashboardSection } from '@/features/dashboard/DashboardSection';
+import { TitleBar } from '@/features/dashboard/TitleBar';
 
-import type { SellerEarnings, ProductCategory } from '@/types/Marketplace';
+// Define local type since SellerEarnings is not exported
+type SellerEarnings = {
+  userId: string;
+  totalSales: number;
+  totalEarnings: number;
+  pendingEarnings: number;
+  withdrawnEarnings: number;
+  serviceFeesPaid: number;
+  dailySales: Record<string, number>;
+  categorySales: Record<string, number>;
+  monthlySummary: Record<string, number>;
+};
 
 // Mock data for demonstration
 const mockEarnings: SellerEarnings = {
@@ -71,12 +79,12 @@ const mockEarnings: SellerEarnings = {
     '2024-07-30': 0,
   },
   categorySales: {
-    'ai_video': 1250.75,
-    'ai_music': 750.50,
-    'ai_image': 550.25,
-    'ai_book': 350.00,
-    'ai_tool': 299.99,
-    'ai_voice': 49.99,
+    ai_video: 1250.75,
+    ai_music: 750.50,
+    ai_image: 550.25,
+    ai_book: 350.00,
+    ai_tool: 299.99,
+    ai_voice: 49.99,
   },
   monthlySummary: {
     '2024-01': 450.75,
@@ -94,43 +102,49 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'
 export default function EarningsPage() {
   const [timeframe, setTimeframe] = useState<'daily' | 'monthly'>('daily');
   const [earnings] = useState<SellerEarnings>(mockEarnings);
-  
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
     }).format(amount);
   };
-  
+
   // Prepare data for charts
   const dailyData = Object.entries(earnings.dailySales).map(([date, amount]) => ({
     date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
     amount,
   })).slice(-14); // Last 14 days
-  
+
   const monthlyData = Object.entries(earnings.monthlySummary).map(([month, amount]) => {
-    const [year, monthNum] = month.split('-');
+    const parts = month.split('-');
+    const year = parts[0];
+    const monthNum = parts[1];
+    if (!year || !monthNum) {
+      return { month: '', amount: 0 };
+    }
+
     return {
-      month: new Date(parseInt(year), parseInt(monthNum) - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+      month: new Date(Number.parseInt(year, 10), Number.parseInt(monthNum, 10) - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
       amount,
     };
   });
-  
+
   const categoryData = Object.entries(earnings.categorySales).map(([category, amount]) => ({
     name: category.replace('ai_', '').replace('_', ' ').toUpperCase(),
     value: amount,
   }));
-  
+
   const serviceFeePercent = 10; // 10% platform fee
-  
+
   return (
     <>
       <TitleBar title="Earnings Dashboard" />
-      
-      <DashboardSection>
+
+      <DashboardSection title="Your Earnings" description="Track your performance and revenue">
         <div className="space-y-6">
           {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -142,16 +156,19 @@ export default function EarningsPage() {
                   <div className="text-2xl font-bold">
                     {formatCurrency(earnings.totalEarnings)}
                   </div>
-                  <div className="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
-                    <DollarSign className="h-5 w-5 text-green-500" />
+                  <div className="flex size-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/20">
+                    <DollarSign className="size-5 text-green-500" />
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  After {serviceFeePercent}% platform fees
+                <p className="mt-1 text-xs text-muted-foreground">
+                  After
+                  {' '}
+                  {serviceFeePercent}
+                  % platform fees
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -163,16 +180,16 @@ export default function EarningsPage() {
                   <div className="text-2xl font-bold">
                     {formatCurrency(earnings.totalSales)}
                   </div>
-                  <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center">
-                    <TrendingUp className="h-5 w-5 text-blue-500" />
+                  <div className="flex size-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/20">
+                    <TrendingUp className="size-5 text-blue-500" />
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Total transaction volume
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -184,16 +201,19 @@ export default function EarningsPage() {
                   <div className="text-2xl font-bold">
                     {formatCurrency(earnings.serviceFeesPaid)}
                   </div>
-                  <div className="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center">
-                    <span className="text-orange-500 font-bold">{serviceFeePercent}%</span>
+                  <div className="flex size-10 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/20">
+                    <span className="font-bold text-orange-500">
+                      {serviceFeePercent}
+                      %
+                    </span>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Total fees paid to platform
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -205,17 +225,17 @@ export default function EarningsPage() {
                   <div className="text-2xl font-bold">
                     {formatCurrency(earnings.pendingEarnings)}
                   </div>
-                  <div className="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
-                    <Calendar className="h-5 w-5 text-purple-500" />
+                  <div className="flex size-10 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/20">
+                    <Users className="size-5 text-purple-500" />
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Available in 7 days
                 </p>
               </CardContent>
             </Card>
           </div>
-          
+
           {/* Sales Chart */}
           <Card>
             <CardHeader>
@@ -224,18 +244,14 @@ export default function EarningsPage() {
                 <div className="flex items-center gap-2">
                   <Select
                     value={timeframe}
-                    onValueChange={(value) => setTimeframe(value as 'daily' | 'monthly')}
+                    onChange={e => setTimeframe(e.target.value as 'daily' | 'monthly')}
+                    className="w-[120px]"
                   >
-                    <SelectTrigger className="w-[120px]">
-                      <SelectValue placeholder="Timeframe" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="daily">Daily</SelectItem>
-                      <SelectItem value="monthly">Monthly</SelectItem>
-                    </SelectContent>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
                   </Select>
                   <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-1" />
+                    <Download className="mr-1 size-4" />
                     Export
                   </Button>
                 </div>
@@ -259,14 +275,14 @@ export default function EarningsPage() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey={timeframe === 'daily' ? 'date' : 'month'} />
                     <YAxis />
-                    <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                    <Tooltip formatter={value => formatCurrency(value as number)} />
                     <Bar dataKey="amount" fill="#8884d8" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Category Distribution */}
           <Card>
             <CardHeader>
@@ -284,23 +300,23 @@ export default function EarningsPage() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {categoryData.map((entry, index) => (
+                      {categoryData.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                    <Tooltip formatter={value => formatCurrency(value as number)} />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Platform Fee Breakdown */}
           <Card>
             <CardHeader>
@@ -311,23 +327,30 @@ export default function EarningsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex justify-between items-center p-4 border rounded-lg">
+                <div className="flex items-center justify-between rounded-lg border p-4">
                   <div>
                     <h4 className="font-medium">Total Sales</h4>
                     <p className="text-sm text-muted-foreground">Gross transaction volume</p>
                   </div>
                   <div className="text-xl font-bold">{formatCurrency(earnings.totalSales)}</div>
                 </div>
-                
-                <div className="flex justify-between items-center p-4 border rounded-lg bg-muted/50">
+
+                <div className="flex items-center justify-between rounded-lg border bg-muted/50 p-4">
                   <div>
-                    <h4 className="font-medium">Platform Fee ({serviceFeePercent}%)</h4>
+                    <h4 className="font-medium">
+                      Platform Fee (
+                      {serviceFeePercent}
+                      %)
+                    </h4>
                     <p className="text-sm text-muted-foreground">Fee for using the marketplace</p>
                   </div>
-                  <div className="text-xl font-bold text-red-500">-{formatCurrency(earnings.serviceFeesPaid)}</div>
+                  <div className="text-xl font-bold text-red-500">
+                    -
+                    {formatCurrency(earnings.serviceFeesPaid)}
+                  </div>
                 </div>
-                
-                <div className="flex justify-between items-center p-4 border rounded-lg bg-green-50 dark:bg-green-900/20">
+
+                <div className="flex items-center justify-between rounded-lg border bg-green-50 p-4 dark:bg-green-900/20">
                   <div>
                     <h4 className="font-medium">Your Earnings</h4>
                     <p className="text-sm text-muted-foreground">Net amount after fees</p>

@@ -27,6 +27,19 @@ export default withSentryConfig(
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
       },
+      images: {
+        domains: ['picsum.photos', 'example.com'],
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'picsum.photos',
+          },
+          {
+            protocol: 'https',
+            hostname: 'example.com',
+          },
+        ],
+      },
     }),
   ),
   {

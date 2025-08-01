@@ -1,160 +1,239 @@
 'use client';
 
+import { Edit, Eye, MoreHorizontal, Plus, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
-import { ProductManagement } from '@/features/products/ProductManagement';
-import type { ProductStatus, ProductWithDetails } from '@/types/Marketplace';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-// Mock data - In a real app, this would come from your API
-const mockProducts: ProductWithDetails[] = [
-  {
-    id: 1,
-    sellerId: 'current_user',
-    title: 'Epic Fantasy Battle Scene - AI Generated 4K Video',
-    description: 'A stunning 4K AI-generated video featuring an epic fantasy battle with dragons, knights, and magical effects. Perfect for game trailers, presentations, or creative projects.',
-    shortDescription: 'Epic 4K fantasy battle scene with dragons and magical effects',
-    slug: 'epic-fantasy-battle-scene',
-    category: 'ai_video',
-    categoryId: 1,
-    price: '29.99',
-    originalPrice: '39.99',
-    licenseType: 'commercial',
-    tags: '["fantasy", "battle", "dragons", "4k", "cinematic"]',
-    previewUrl: 'https://example.com/preview.mp4',
-    thumbnailUrl: 'https://picsum.photos/800/450?random=1',
-    downloadUrl: 'https://example.com/download/1',
-    fileSize: 2147483648, // 2GB
-    duration: 120, // 2 minutes
-    dimensions: '3840x2160',
-    aiModel: 'Stable Video Diffusion',
-    prompts: 'Epic fantasy battle scene with dragons breathing fire over a medieval battlefield',
-    status: 'published',
-    isActive: true,
-    isFeatured: true,
-    downloads: 543,
-    views: 2341,
-    favorites: 89,
-    rating: '4.8',
-    reviewCount: 23,
-    metadata: '{}',
-    serviceFeePercent: 10, // 10% platform fee
-    updatedAt: new Date('2024-01-15'),
-    createdAt: new Date('2024-01-10'),
-  },
-  {
-    id: 2,
-    sellerId: 'current_user',
-    title: 'Ambient Space Music - AI Composed Soundtrack',
-    description: 'A beautiful ambient space music track composed entirely by AI. Perfect for meditation, relaxation, or background music for sci-fi projects.',
-    shortDescription: 'Ambient AI-composed space music for relaxation',
-    slug: 'ambient-space-music',
-    category: 'ai_music',
-    categoryId: 2,
-    price: '12.99',
-    licenseType: 'personal',
-    tags: '["ambient", "space", "relaxation", "meditation", "sci-fi"]',
-    thumbnailUrl: 'https://picsum.photos/800/450?random=2',
-    duration: 300, // 5 minutes
-    aiModel: 'AIVA',
-    status: 'published',
-    isActive: true,
-    isFeatured: false,
-    downloads: 234,
-    views: 987,
-    favorites: 45,
-    rating: '4.6',
-    reviewCount: 12,
-    metadata: '{}',
-    serviceFeePercent: 10, // 10% platform fee
-    updatedAt: new Date('2024-01-14'),
-    createdAt: new Date('2024-01-08'),
-  },
-  {
-    id: 3,
-    sellerId: 'current_user',
-    title: 'Cyberpunk Portrait Collection - Draft',
-    description: 'A collection of 50 AI-generated cyberpunk portraits featuring futuristic characters with neon aesthetics.',
-    shortDescription: 'Collection of AI cyberpunk portraits',
-    slug: 'cyberpunk-portrait-collection',
-    category: 'ai_image',
-    categoryId: 3,
-    price: '19.99',
-    licenseType: 'commercial',
-    tags: '["cyberpunk", "portraits", "futuristic", "neon", "collection"]',
-    thumbnailUrl: 'https://picsum.photos/800/450?random=3',
-    aiModel: 'Midjourney',
-    status: 'draft',
-    isActive: false,
-    isFeatured: false,
-    downloads: 0,
-    views: 45,
-    favorites: 3,
-    rating: '0.00',
-    reviewCount: 0,
-    metadata: '{}',
-    serviceFeePercent: 10, // 10% platform fee
-    updatedAt: new Date('2024-01-16'),
-    createdAt: new Date('2024-01-16'),
-  },
-];
-
-export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductWithDetails[]>(mockProducts);
-  const [loading, setLoading] = useState(false);
-
-  const handleEditProduct = (_productId: number) => {
-    // In a real app, this would navigate to edit page or open modal
-    // Example: router.push(`/dashboard/products/${productId}/edit`);
-    // Removed console.log for production
-  };
-
-  const handleDeleteProduct = async (productId: number) => {
-    // In a real app, this would call your API
-    setLoading(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Remove product from list
-      setProducts(prev => prev.filter(p => p.id !== productId));
-    } catch {
-      // Use a proper error handling mechanism instead of console.error
-      // For example, set an error state and display it to the user
-      // setError('Failed to delete product');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleToggleStatus = async (productId: number, newStatus: ProductStatus) => {
-    // In a real app, this would call your API
-    setLoading(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Update product status
-      setProducts(prev => prev.map(product =>
-        product.id === productId
-          ? { ...product, status: newStatus }
-          : product,
-      ));
-    } catch {
-      // Use a proper error handling mechanism instead of console.error
-      // For example, set an error state and display it to the user
-      // setError('Failed to update product status');
-    } finally {
-      setLoading(false);
-    }
-  };
+const ProductsPage = () => {
+  const [products] = useState([
+    {
+      id: 1,
+      title: 'AI Video Generator Pro',
+      category: 'AI Video',
+      price: 49.99,
+      sales: 23,
+      earnings: 1149.77,
+      views: 1240,
+      status: 'active',
+      image: 'https://picsum.photos/200/150?random=1',
+      createdAt: '2024-01-15',
+    },
+    {
+      id: 2,
+      title: 'Music Creation Suite',
+      category: 'AI Music',
+      price: 29.99,
+      sales: 18,
+      earnings: 539.82,
+      views: 890,
+      status: 'active',
+      image: 'https://picsum.photos/200/150?random=2',
+      createdAt: '2024-01-10',
+    },
+    {
+      id: 3,
+      title: 'Digital Art Pack',
+      category: 'AI Images',
+      price: 19.99,
+      sales: 45,
+      earnings: 899.55,
+      views: 2100,
+      status: 'active',
+      image: 'https://picsum.photos/200/150?random=3',
+      createdAt: '2024-01-05',
+    },
+    {
+      id: 4,
+      title: 'Voice Clone Tool',
+      category: 'AI Voice',
+      price: 39.99,
+      sales: 12,
+      earnings: 479.88,
+      views: 650,
+      status: 'draft',
+      image: 'https://picsum.photos/200/150?random=4',
+      createdAt: '2024-01-20',
+    },
+    {
+      id: 5,
+      title: 'Text Generator AI',
+      category: 'AI Tools',
+      price: 24.99,
+      sales: 67,
+      earnings: 1674.33,
+      views: 3200,
+      status: 'active',
+      image: 'https://picsum.photos/200/150?random=5',
+      createdAt: '2023-12-28',
+    },
+  ]);
 
   return (
-    <ProductManagement
-      products={products}
-      loading={loading}
-      onEditProduct={handleEditProduct}
-      onDeleteProduct={handleDeleteProduct}
-      onToggleStatus={handleToggleStatus}
-    />
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Your Products</h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Manage your AI creations and track their performance
+          </p>
+        </div>
+        <Link href="/dashboard/products/new">
+          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+            <Plus className="mr-2 size-4" />
+            Add Product
+          </Button>
+        </Link>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 dark:border-purple-800 dark:from-purple-900/20 dark:to-pink-900/20">
+          <CardContent className="p-6">
+            <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+              {products.length}
+            </div>
+            <p className="text-sm text-purple-600 dark:text-purple-400">Total Products</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 dark:border-green-800 dark:from-green-900/20 dark:to-emerald-900/20">
+          <CardContent className="p-6">
+            <div className="text-2xl font-bold text-green-900 dark:text-green-100">
+              {products.filter(p => p.status === 'active').length}
+            </div>
+            <p className="text-sm text-green-600 dark:text-green-400">Active</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 dark:border-blue-800 dark:from-blue-900/20 dark:to-cyan-900/20">
+          <CardContent className="p-6">
+            <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+              $
+              {products.reduce((sum, p) => sum + p.earnings, 0).toLocaleString()}
+            </div>
+            <p className="text-sm text-blue-600 dark:text-blue-400">Total Earnings</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-red-50 dark:border-orange-800 dark:from-orange-900/20 dark:to-red-900/20">
+          <CardContent className="p-6">
+            <div className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+              {products.reduce((sum, p) => sum + p.views, 0).toLocaleString()}
+            </div>
+            <p className="text-sm text-orange-600 dark:text-orange-400">Total Views</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {products.map(product => (
+          <Card key={product.id} className="overflow-hidden transition-all hover:shadow-lg">
+            <div className="relative">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="h-48 w-full object-cover"
+              />
+              <div className="absolute right-2 top-2">
+                <Badge
+                  variant={product.status === 'active' ? 'default' : 'secondary'}
+                  className={product.status === 'active'
+                    ? 'bg-green-500 hover:bg-green-600'
+                    : 'bg-gray-500 hover:bg-gray-600'}
+                >
+                  {product.status}
+                </Badge>
+              </div>
+            </div>
+
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <CardTitle className="text-lg">{product.title}</CardTitle>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{product.category}</p>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <MoreHorizontal className="size-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>
+                      <Eye className="mr-2 size-4" />
+                      View Details
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Edit className="mr-2 size-4" />
+                      Edit Product
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-600">
+                      <Trash2 className="mr-2 size-4" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </CardHeader>
+
+            <CardContent className="pt-0">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Price:</span>
+                  <span className="font-semibold">
+                    $
+                    {product.price}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Sales:</span>
+                  <span className="font-semibold text-green-600">{product.sales}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Earnings:</span>
+                  <span className="font-semibold text-green-600">
+                    $
+                    {product.earnings}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Views:</span>
+                  <span className="font-semibold text-blue-600">{product.views}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Created:</span>
+                  <span className="text-gray-600 dark:text-gray-400">{product.createdAt}</span>
+                </div>
+              </div>
+
+              <div className="mt-4 flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1">
+                  <Edit className="mr-1 size-3" />
+                  Edit
+                </Button>
+                <Button variant="outline" size="sm" className="flex-1">
+                  <Eye className="mr-1 size-3" />
+                  View
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
-}
+};
+
+export default ProductsPage;

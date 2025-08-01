@@ -1,7 +1,7 @@
 {
   "Index": {
-    "meta_title": "SaaS Template - Le template SaaS parfait pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
-    "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS."
+    "meta_title": "ZENO - Possibilités infinies dans la création IA. Partagez, trouvez, échangez des produits IA instantanément.",
+    "meta_description": "ZENO est la marketplace IA ultime où les créateurs partagent, découvrent et échangent du contenu généré par IA. Construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
   },
   "Navbar": {
     "sign_in": "Se connecter",
@@ -14,8 +14,8 @@
   },
   "Hero": {
     "follow_twitter": "Suivez @Ixartz sur Twitter",
-    "title": "Le parfait <important>SaaS template</important> pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
-    "description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
+    "title": "Découvrez les <important>possibilités infinies</important> de la création IA avec ZENO.",
+    "description": "La marketplace IA ultime où les créateurs partagent, découvrent et échangent du contenu généré par IA. Donnons aux créateurs des possibilités infinies.",
     "primary_button": "Démarrer",
     "secondary_button": "Mettez une étoile sur GitHub"
   },
@@ -24,20 +24,20 @@
   },
   "Features": {
     "section_subtitle": "Fonctionnalités",
-    "section_title": "Débloquer le plein potentiel du SaaS Template",
-    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
+    "section_title": "Débloquer le plein potentiel de ZENO",
+    "section_description": "La marketplace IA ultime où les créateurs partagent, découvrent et échangent du contenu généré par IA. Construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS.",
     "feature1_title": "Node.js",
     "feature2_title": "React",
     "feature3_title": "Tailwind CSS",
     "feature4_title": "TypeScript",
     "feature5_title": "Shadcn UI",
     "feature6_title": "ESLint",
-    "feature_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS."
+    "feature_description": "La marketplace IA ultime où les créateurs partagent, découvrent et échangent du contenu généré par IA. Construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
   },
   "Pricing": {
     "section_subtitle": "Fonctionnalités",
-    "section_title": "Débloquer le plein potentiel du SaaS Template",
-    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
+    "section_title": "Débloquer le plein potentiel de ZENO",
+    "section_description": "La marketplace IA ultime où les créateurs partagent, découvrent et échangent du contenu généré par IA. Construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS.",
     "button_text": "Démarrer"
   },
   "PricingPlan": {
@@ -48,22 +48,22 @@
     "premium_plan_description": "Pour les petites équipes",
     "enterprise_plan_description": "Pour les leaders de l'industrie",
     "feature_team_member": "{number} membres",
-    "feature_website": "{number} sites internet",
-    "feature_storage": "{number} Go de stockage",
+    "feature_website": "{number} sites web",
+    "feature_storage": "{number} GB de stockage",
     "feature_transfer": "{number} TB de transfert",
-    "feature_email_support": "Support par e-mail",
+    "feature_email_support": "Support par email",
     "plan_interval_month": "mois",
     "plan_interval_year": "année",
-    "next_renew_date": "Votre abonnement sera renouvelé le {date}"
+    "plan_interval_discount": "2 mois gratuits"
   },
   "FAQ": {
-    "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
+    "question": "Qu'est-ce que ZENO ?",
+    "answer": "ZENO est une plateforme marketplace IA où les créateurs peuvent partager, découvrir et échanger du contenu généré par IA incluant vidéos, musique, images, outils et plus."
   },
   "CTA": {
-    "title": "Vous êtes prêt?",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "button_text": "Mettez une étoile sur GitHub"
+    "title": "Prêt à explorer ZENO ?",
+    "description": "Rejoignez la marketplace IA ultime et découvrez les possibilités infinies de la création IA.",
+    "button_text": "Démarrer"
   },
   "Footer": {
     "product": "Produit",
@@ -73,94 +73,82 @@
     "company": "Entreprise",
     "terms_of_service": "Conditions d'utilisation",
     "privacy_policy": "Politique de confidentialité",
-    "designed_by": "Designé by <author></author>."
+    "designed_by": "Fait avec ♥ par <author></author>",
+    "rights": "© Copyright {year}. Tous droits réservés.",
+    "powered_by": "Propulsé par"
   },
   "ProtectFallback": {
-    "not_enough_permission": "Vous n'avez pas les permissions pour effectuer cette action"
+    "not_authorized": "Vous n'êtes pas autorisé à voir cette page."
   },
   "SignIn": {
-    "meta_title": "Se connecter",
-    "meta_description": "Connectez-vous à votre compte avec facilité."
+    "meta_title": "Se connecter à ZENO",
+    "meta_description": "Connectez-vous facilement à votre compte ZENO et commencez à explorer les possibilités infinies de la création IA."
   },
   "SignUp": {
-    "meta_title": "S'inscrire",
-    "meta_description": "Créez un compte sans effort grâce à notre processus d'inscription intuitif."
-  },
-  "DashboardLayout": {
-    "home": "Accueil",
-    "todos": "Todos",
-    "members": "Membres",
-    "billing": "Facturation",
-    "settings": "Réglages"
+    "meta_title": "S'inscrire à ZENO",
+    "meta_description": "Créez votre compte ZENO et rejoignez la marketplace IA ultime pour les créateurs."
   },
   "Dashboard": {
-    "meta_title": "Tableau de bord du SaaS Template",
-    "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
+    "meta_title": "Tableau de bord ZENO",
+    "meta_description": "La marketplace IA ultime où les créateurs partagent, découvrent et échangent du contenu généré par IA. Construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
   },
-  "DashboardIndex": {
-    "title_bar": "Tableau de bord",
-    "title_bar_description": "Bienvenue sur votre tableau de bord",
-    "message_state_title": "C'est parti",
-    "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>dashboard/page.tsx</code>",
-    "message_state_button": "Mettez une étoile sur GitHub",
-    "message_state_alternative": "Vous voulez plus de fonctionnalités en utilisant la même stack ? Essayez <url></url>."
+  "DashboardLayout": {
+    "dashboard": "Tableau de bord",
+    "user_profile": "Profil utilisateur",
+    "organization": "Organisation",
+    "billing": "Facturation",
+    "sign_out": "Se déconnecter"
   },
   "UserProfile": {
-    "title_bar": "Profil utilisateur",
-    "title_bar_description": "Afficher et gérer votre profil utilisateur"
+    "meta_title": "Profil utilisateur"
   },
   "OrganizationProfile": {
-    "title_bar": "Gestion de l’organisation",
-    "title_bar_description": "Gérer votre organisation"
+    "meta_title": "Profil de l'organisation"
   },
   "Billing": {
-    "title_bar": "Facturation",
-    "title_bar_description": "Gérer votre facturation et votre abonnement",
-    "current_section_title": "Plan actuel",
-    "current_section_description": "Ajuster votre plan de paiement pour le mieux répondre à vos besoins",
-    "manage_subscription_button": "Gérer l'abonnement"
+    "meta_title": "Facturation"
   },
   "BillingOptions": {
     "current_plan": "Plan actuel",
-    "upgrade_plan": "Démarrer"
+    "upgrade_plan": "Mettre à niveau le plan"
   },
   "CheckoutConfirmation": {
-    "title_bar": "Confirmation du paiement",
-    "message_state_title": "Paiement accepté",
-    "message_state_description": "Votre paiement a été traité avec succès. Merci pour votre achat !",
-    "message_state_button": "Revenir à la facturation"
+    "meta_title": "Confirmation de paiement",
+    "message_success": "Votre paiement a été traité avec succès. Merci pour votre achat !",
+    "message_cancelled": "Votre paiement a été annulé. Vous pouvez réessayer en cliquant sur le bouton de mise à niveau.",
+    "back_to_billing": "Retour à la facturation"
   },
   "DataTable": {
     "no_results": "Aucun résultat."
   },
-  "Todos": {
-    "title_bar": "Liste de Todos",
-    "title_bar_description": "Afficher et gérer votre liste de todos",
-    "add_todo_button": "Nouveau todo"
+  "Pagination": {
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {page} sur {totalPages}",
+    "go_to_first_page": "Aller à la première page",
+    "go_to_previous_page": "Aller à la page précédente",
+    "go_to_next_page": "Aller à la page suivante",
+    "go_to_last_page": "Aller à la dernière page",
+    "rows_per_page": "Lignes par page"
   },
-  "TodoTableColumns": {
-    "open_menu": "Ouvrir le menu",
-    "edit": "Modifier",
-    "delete": "Supprimer",
-    "title_header": "Titre",
-    "message_header": "Message",
-    "created_at_header": "Créé le"
+  "TodoList": {
+    "meta_title": "Liste de tâches",
+    "add_todo_section": "Ajouter une tâche",
+    "add_todo_button": "Ajouter une tâche",
+    "edit_todo_button": "Modifier la tâche",
+    "delete_todo_button": "Supprimer la tâche"
   },
   "AddTodo": {
-    "title_bar": "Ajouter une todo",
-    "add_todo_section_title": "Créer une nouvelle todo",
-    "add_todo_section_description": "Remplissez le formulaire ci-dessous pour créer une nouvelle todo"
+    "meta_title": "Ajouter une tâche"
   },
   "EditTodo": {
-    "title_bar": "Editer le todo",
-    "edit_todo_section_title": "Modifier le todo",
-    "edit_todo_section_description": "Remplissez le formulaire ci-dessous pour modifier la todo"
+    "meta_title": "Modifier la tâche"
   },
   "TodoForm": {
     "title_label": "Titre",
-    "title_description": "Entrez un titre descriptif pour votre todo.",
-    "message_title": "Message",
-    "message_description": "Entrez un message détaillé pour votre todo.",
-    "submit_button": "Envoyer"
+    "title_error": "Le titre est requis et doit contenir au moins 1 caractère.",
+    "message_label": "Message",
+    "message_error": "Le message est requis et doit contenir au moins 10 caractères.",
+    "save_todo_button": "Sauvegarder la tâche"
   }
 }

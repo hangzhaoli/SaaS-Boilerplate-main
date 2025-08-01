@@ -1,8 +1,7 @@
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/buttonVariants';
-import { CTABanner } from '@/features/landing/CTABanner';
+import { CenteredHero } from '@/features/landing/CenteredHero';
 import { Section } from '@/features/landing/Section';
 
 export const CTA = () => {
@@ -10,15 +9,16 @@ export const CTA = () => {
 
   return (
     <Section>
-      <CTABanner
+      <CenteredHero
+        banner={null}
         title={t('title')}
         description={t('description')}
         buttons={(
           <a
             className={buttonVariants({ variant: 'outline', size: 'lg' })}
-            href="https://github.com/ixartz/SaaS-Boilerplate"
+            href="/marketplace"
           >
-            <GitHubLogoIcon className="mr-2 size-5" />
+            <span className="mr-2">∞</span>
             {t('button_text')}
           </a>
         )}

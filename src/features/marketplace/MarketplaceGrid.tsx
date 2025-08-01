@@ -1,29 +1,29 @@
 'use client';
 
-import { Search, Filter, Grid, List, SlidersHorizontal } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Filter, Grid, List, Search, SlidersHorizontal } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import type { ProductCategory, ProductFilters, ProductWithDetails } from '@/types/Marketplace';
 
 import { ProductCard } from './ProductCard';
-import type { ProductWithDetails, ProductFilters, ProductCategory } from '@/types/Marketplace';
 
-interface MarketplaceGridProps {
+type MarketplaceGridProps = {
   products: ProductWithDetails[];
   loading?: boolean;
   onLoadMore?: () => void;
   hasMore?: boolean;
   onAddToFavorites?: (productId: number) => void;
   onPreview?: (product: ProductWithDetails) => void;
-}
+};
 
 const categories: { value: ProductCategory; label: string; icon: string; imageSrc?: string }[] = [
   { value: 'ai_video', label: 'AI Videos', icon: '🎬', imageSrc: '/image_assets/image.png' },
@@ -43,13 +43,13 @@ const sortOptions = [
   { value: 'downloads', label: 'Most Downloaded' },
 ];
 
-export function MarketplaceGrid({ 
-  products, 
-  loading = false, 
-  onLoadMore, 
+export function MarketplaceGrid({
+  products,
+  loading = false,
+  onLoadMore,
   hasMore = false,
   onAddToFavorites,
-  onPreview 
+  onPreview,
 }: MarketplaceGridProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filters, setFilters] = useState<ProductFilters>({});
@@ -62,23 +62,23 @@ export function MarketplaceGrid({
 
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(product => {
+      filtered = filtered.filter((product) => {
         const searchTermLower = searchTerm.toLowerCase();
         const titleMatch = product.title.toLowerCase().includes(searchTermLower);
         const descriptionMatch = product.description.toLowerCase().includes(searchTermLower);
-        
+
         let tagsMatch = false;
         if (product.tags) {
           try {
             const parsedTags = JSON.parse(product.tags);
-            tagsMatch = parsedTags.some((tag: string) => 
-              tag.toLowerCase().includes(searchTermLower)
+            tagsMatch = parsedTags.some((tag: string) =>
+              tag.toLowerCase().includes(searchTermLower),
             );
           } catch {
             // Silently fail if JSON parsing fails
           }
         }
-        
+
         return titleMatch || descriptionMatch || tagsMatch;
       });
     }
@@ -90,15 +90,15 @@ export function MarketplaceGrid({
 
     // Price range filter
     if (filters.minPrice !== undefined) {
-      filtered = filtered.filter(product => parseFloat(product.price) >= filters.minPrice!);
+      filtered = filtered.filter(product => Number.parseFloat(product.price) >= filters.minPrice!);
     }
     if (filters.maxPrice !== undefined) {
-      filtered = filtered.filter(product => parseFloat(product.price) <= filters.maxPrice!);
+      filtered = filtered.filter(product => Number.parseFloat(product.price) <= filters.maxPrice!);
     }
 
     // Rating filter
     if (filters.rating) {
-      filtered = filtered.filter(product => parseFloat(product.rating) >= filters.rating!);
+      filtered = filtered.filter(product => Number.parseFloat(product.rating) >= filters.rating!);
     }
 
     // Featured filter
@@ -115,11 +115,11 @@ export function MarketplaceGrid({
           case 'oldest':
             return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
           case 'price_low':
-            return parseFloat(a.price) - parseFloat(b.price);
+            return Number.parseFloat(a.price) - Number.parseFloat(b.price);
           case 'price_high':
-            return parseFloat(b.price) - parseFloat(a.price);
+            return Number.parseFloat(b.price) - Number.parseFloat(a.price);
           case 'rating':
-            return parseFloat(b.rating) - parseFloat(a.rating);
+            return Number.parseFloat(b.rating) - Number.parseFloat(a.rating);
           case 'downloads':
             return b.downloads - a.downloads;
           default:
@@ -147,12 +147,12 @@ export function MarketplaceGrid({
       {/* Search and Filter Bar */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         {/* Search */}
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <div className="relative max-w-md flex-1">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search AI products..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="pl-10"
           />
         </div>
@@ -163,7 +163,7 @@ export function MarketplaceGrid({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
-                <Filter className="h-4 w-4" />
+                <Filter className="size-4" />
                 Category
                 {filters.category && (
                   <Badge variant="secondary" className="ml-1">
@@ -182,15 +182,17 @@ export function MarketplaceGrid({
                   onClick={() => handleFilterChange('category', category.value)}
                   className="flex items-center gap-2"
                 >
-                  {category.imageSrc ? (
-                    <img 
-                      src={category.imageSrc} 
-                      alt={category.label} 
-                      className="w-5 h-5 object-contain"
-                    />
-                  ) : (
-                    <span>{category.icon}</span>
-                  )}
+                  {category.imageSrc
+                    ? (
+                        <img
+                          src={category.imageSrc}
+                          alt={category.label}
+                          className="size-5 object-contain"
+                        />
+                      )
+                    : (
+                        <span>{category.icon}</span>
+                      )}
                   {category.label}
                 </DropdownMenuItem>
               ))}
@@ -201,7 +203,7 @@ export function MarketplaceGrid({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
-                <SlidersHorizontal className="h-4 w-4" />
+                <SlidersHorizontal className="size-4" />
                 Sort
               </Button>
             </DropdownMenuTrigger>
@@ -209,7 +211,7 @@ export function MarketplaceGrid({
               {sortOptions.map(option => (
                 <DropdownMenuItem
                   key={option.value}
-                  onClick={() => handleFilterChange('sortBy', option.value)}
+                  onClick={() => handleFilterChange('sortBy', option.value as ProductFilters['sortBy'])}
                 >
                   {option.label}
                 </DropdownMenuItem>
@@ -219,7 +221,7 @@ export function MarketplaceGrid({
 
           {/* Featured Filter */}
           <Button
-            variant={filters.featured ? "default" : "outline"}
+            variant={filters.featured ? 'default' : 'outline'}
             onClick={() => handleFilterChange('featured', !filters.featured)}
             className="gap-2"
           >
@@ -234,7 +236,7 @@ export function MarketplaceGrid({
               onClick={() => setViewMode('grid')}
               className="rounded-r-none"
             >
-              <Grid className="h-4 w-4" />
+              <Grid className="size-4" />
             </Button>
             <Button
               variant={viewMode === 'list' ? 'default' : 'ghost'}
@@ -242,14 +244,16 @@ export function MarketplaceGrid({
               onClick={() => setViewMode('list')}
               className="rounded-l-none"
             >
-              <List className="h-4 w-4" />
+              <List className="size-4" />
             </Button>
           </div>
 
           {/* Clear Filters */}
           {activeFiltersCount > 0 && (
             <Button variant="ghost" onClick={clearFilters}>
-              Clear Filters ({activeFiltersCount})
+              Clear Filters (
+              {activeFiltersCount}
+              )
             </Button>
           )}
         </div>
@@ -260,10 +264,12 @@ export function MarketplaceGrid({
         <div className="flex flex-wrap gap-2">
           {searchTerm && (
             <Badge variant="secondary" className="gap-1">
-              Search: {searchTerm}
+              Search:
+              {' '}
+              {searchTerm}
               <button
                 onClick={() => setSearchTerm('')}
-                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
               >
                 ×
               </button>
@@ -274,7 +280,7 @@ export function MarketplaceGrid({
               {categories.find(c => c.value === filters.category)?.label}
               <button
                 onClick={() => handleFilterChange('category', undefined)}
-                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
               >
                 ×
               </button>
@@ -285,52 +291,59 @@ export function MarketplaceGrid({
 
       {/* Results Count */}
       <div className="text-sm text-muted-foreground">
-        {filteredProducts.length} products found
+        {filteredProducts.length}
+        {' '}
+        products found
       </div>
 
       {/* Products Grid */}
-      {loading && filteredProducts.length === 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="animate-pulse">
-              <div className="aspect-video bg-muted rounded-lg mb-4" />
-              <div className="space-y-2">
-                <div className="h-4 bg-muted rounded" />
-                <div className="h-3 bg-muted rounded w-3/4" />
-                <div className="h-3 bg-muted rounded w-1/2" />
-              </div>
+      {loading && filteredProducts.length === 0
+        ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="mb-4 aspect-video rounded-lg bg-muted" />
+                  <div className="space-y-2">
+                    <div className="h-4 rounded bg-muted" />
+                    <div className="h-3 w-3/4 rounded bg-muted" />
+                    <div className="h-3 w-1/2 rounded bg-muted" />
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : filteredProducts.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-muted-foreground text-lg mb-2">No products found</div>
-          <p className="text-sm text-muted-foreground">
-            Try adjusting your filters or search terms
-          </p>
-        </div>
-      ) : (
-        <div className={`grid gap-6 ${
-          viewMode === 'grid' 
-            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-            : 'grid-cols-1'
-        }`}>
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToFavorites={onAddToFavorites}
-              onPreview={onPreview}
-            />
-          ))}
-        </div>
-      )}
+          )
+        : filteredProducts.length === 0
+          ? (
+              <div className="py-12 text-center">
+                <div className="mb-2 text-lg text-muted-foreground">No products found</div>
+                <p className="text-sm text-muted-foreground">
+                  Try adjusting your filters or search terms
+                </p>
+              </div>
+            )
+          : (
+              <div className={`grid gap-6 ${
+                viewMode === 'grid'
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                  : 'grid-cols-1'
+              }`}
+              >
+                {filteredProducts.map(product => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onAddToFavorites={onAddToFavorites}
+                    onPreview={onPreview}
+                  />
+                ))}
+              </div>
+            )}
 
       {/* Load More Button */}
       {hasMore && !loading && (
         <div className="text-center">
-          <Button 
-            onClick={onLoadMore} 
+          <Button
+            onClick={onLoadMore}
             variant="outline"
             aria-label="Load more products"
             disabled={loading}
@@ -342,7 +355,7 @@ export function MarketplaceGrid({
 
       {/* Loading More */}
       {loading && filteredProducts.length > 0 && (
-        <div className="text-center py-4">
+        <div className="py-4 text-center">
           <div className="text-sm text-muted-foreground">Loading more products...</div>
         </div>
       )}

@@ -1,11 +1,16 @@
 import Link from 'next/link';
 
-import { StickyBanner } from '@/features/landing/StickyBanner';
-
 export const DemoBanner = () => (
-  <StickyBanner>
-    Live Demo of SaaS Boilerplate -
-    {' '}
-    <Link href="/sign-up">Explore the User Dashboard</Link>
-  </StickyBanner>
+  <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-3 py-1 text-center text-sm font-medium text-white">
+    <span>
+      ∞ ZENO - Infinite Possibilities in AI Creation -
+      {' '}
+      <Link
+        href="/marketplace"
+        className="underline hover:no-underline"
+      >
+        Explore Now
+      </Link>
+    </span>
+  </div>
 );

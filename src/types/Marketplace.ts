@@ -138,7 +138,7 @@ export type ProductView = {
 // Extended types with relations
 export type ProductWithDetails = Product & {
   seller?: UserProfile;
-  category?: Category;
+  categoryDetails?: Category; // Renamed to avoid conflict with Product.category
   files?: ProductFile[];
   reviews?: Review[];
   isFavorited?: boolean;
