@@ -1,3 +1,10 @@
+# 1.0.0 (2025-08-01)
+
+
+### Features
+
+* ai marketplace 初始化 ([2536a32](https://github.com/hangzhaoli/SaaS-Boilerplate-main/commit/2536a32ce37b0b0d086027664670a62e6e072766))
+
 ## [1.7.6](https://github.com/ixartz/SaaS-Boilerplate/compare/v1.7.5...v1.7.6) (2025-05-01)
 
 
