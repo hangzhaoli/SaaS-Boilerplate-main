@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "zeno",
-  "version": "1.7.6",
-=======
   "name": "saas-boilerplate",
   "version": "1.0.0",
->>>>>>> 72dbccb9f8bd235dbd6bbae5ba4e5ba425e24518
   "scripts": {
     "dev": "run-p dev:*",
     "dev:next": "next dev",
